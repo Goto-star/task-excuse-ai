@@ -16,11 +16,9 @@
 </div>
 
 <div style="margin-top:30px;">
-  <%= link_to "別の言い訳を探す", root_path, class: "btn-primary" %>
   <%= button_to "この言い訳を削除", excuse_request_path(@excuse_request), method: :delete,
       data: { turbo_confirm: "本当にこの言い訳を削除しますか？" },
       style: "background:#d32f2f; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer; margin-left:10px;" %>
 </div>
 
 <hr style="margin-top:40px;">
-<%= link_to "過去の言い訳リストを見る", excuse_requests_path, class: "btn-secondary" %>

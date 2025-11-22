@@ -1,15 +1,349 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App</title>
+    <title>タスク言い訳生成システム</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <style>
+      /* ===============================
+         基本設定・リセット
+         =============================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #2d3748;
+        line-height: 1.7;
+        font-size: 16px;
+      }
+
+      /* ===============================
+         ヘッダー
+         =============================== */
+      .app-header {
+        background-color: #1f2937;
+        color: #ffffff;
+        padding: 20px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .app-header h1 {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 30px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      /* ===============================
+         コンテナ
+         =============================== */
+      .container {
+        max-width: 860px;
+        margin: 40px auto;
+        padding: 0 30px;
+      }
+
+      /* ===============================
+         カードUI
+         =============================== */
+      .card {
+        background-color: #ffffff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 32px;
+        margin-bottom: 24px;
+      }
+
+      /* ===============================
+         見出し
+         =============================== */
+      h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 16px;
+      }
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 12px;
+      }
+
+      p {
+        color: #4b5563;
+        margin-bottom: 16px;
+        line-height: 1.7;
+      }
+
+      /* ===============================
+         フォーム
+         =============================== */
+      .form-group {
+        margin-bottom: 24px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-size: 15px;
+        color: #1f2937;
+        background-color: #ffffff;
+        transition: border-color 0.2s;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      select {
+        cursor: pointer;
+        width: auto;
+        min-width: 200px;
+      }
+
+      input[type="number"] {
+        width: auto;
+        min-width: 200px;
+      }
+
+      /* ===============================
+         ボタン
+         =============================== */
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        text-align: center;
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn-primary {
+        background-color: #3b82f6;
+        color: #ffffff;
+      }
+
+      .btn-primary:hover {
+        background-color: #2563eb;
+      }
+
+      .btn-secondary {
+        background-color: #6b7280;
+        color: #ffffff;
+      }
+
+      .btn-secondary:hover {
+        background-color: #4b5563;
+      }
+
+      .btn-accent {
+        background-color: #f97316;
+        color: #ffffff;
+      }
+
+      .btn-accent:hover {
+        background-color: #ea580c;
+      }
+
+      input[type="submit"] {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        background-color: #3b82f6;
+        color: #ffffff;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #2563eb;
+      }
+
+      input[type="submit"]:active {
+        transform: translateY(1px);
+      }
+
+      /* ===============================
+         ユーティリティ
+         =============================== */
+      .text-center {
+        text-align: center;
+      }
+
+      .text-right {
+        text-align: right;
+      }
+
+      .mt-24 {
+        margin-top: 24px;
+      }
+
+      .mt-32 {
+        margin-top: 32px;
+      }
+
+      .mb-24 {
+        margin-bottom: 24px;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #e5e7eb;
+        margin: 32px 0;
+      }
+
+      /* ===============================
+         リンク
+         =============================== */
+      a {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* ===============================
+         エラーメッセージ
+         =============================== */
+      .error-message {
+        background-color: #fef2f2;
+        border-left: 4px solid #ef4444;
+        padding: 16px;
+        margin-bottom: 24px;
+        border-radius: 4px;
+      }
+
+      .error-message h3 {
+        color: #dc2626;
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+
+      .error-message ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .error-message li {
+        color: #991b1b;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      /* ===============================
+         結果表示エリア
+         =============================== */
+      .result-box {
+        background-color: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 4px;
+        padding: 24px;
+        line-height: 1.8;
+        color: #1f2937;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      /* ===============================
+         履歴カード
+         =============================== */
+      .history-item {
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-left: 4px solid #3b82f6;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 16px;
+        transition: box-shadow 0.2s;
+      }
+
+      .history-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .history-item-title {
+        font-weight: 600;
+        font-size: 16px;
+        color: #1f2937;
+        margin-bottom: 8px;
+      }
+
+      .history-item-date {
+        font-size: 13px;
+        color: #9ca3af;
+      }
+
+      /* ===============================
+         ボタングループ
+         =============================== */
+      .button-group {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .button-group-center {
+        justify-content: center;
+      }
+
+      .button-group-right {
+        justify-content: flex-end;
+      }
+    </style>
   </head>
 
   <body>
-    <%= yield %>
+    <header class="app-header">
+      <h1>タスク言い訳生成システム</h1>
+    </header>
+
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>

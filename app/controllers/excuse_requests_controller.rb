@@ -31,6 +31,12 @@ class ExcuseRequestsController < ApplicationController
     @excuse_requests = ExcuseRequest.order(created_at: :desc)
   end
 
+  def destroy
+    @excuse_request = ExcuseRequest.find(params[:id])
+    @excuse_request.destroy
+    redirect_to excuse_requests_path, notice: "言い訳リクエストを削除しました。"
+  end
+
   private
 
   def excuse_request_params

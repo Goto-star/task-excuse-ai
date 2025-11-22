@@ -1,21 +1,29 @@
-<h2>過去の言い訳履歴</h2>
-
-<p>あなたが逃げ道を求めた軌跡たちです。</p>
-
-<div style="margin-top:30px;">
-  <% @excuse_requests.each do |req| %>
-    <div style="
-      background:#fff7e6;
-      padding:16px;
-      border-radius:8px;
-      margin-bottom:14px;
-      border-left:4px solid #ff9800;
-    ">
-      <strong><%= link_to req.task_name, req %></strong><br>
-      <small style="color:#777;"><%= req.created_at.strftime("%Y-%m-%d %H:%M") %></small>
-    </div>
-  <% end %>
+<div class="card">
+  <h2>過去の言い訳履歴</h2>
+  <p>
+    あなたが逃げ道を求めた軌跡たちです。
+  </p>
 </div>
 
-<hr style="margin-top:40px;">
-<%= link_to "トップへ戻る", root_path, class: "btn-secondary" %>
+<% if @excuse_requests.any? %>
+  <% @excuse_requests.each do |req| %>
+    <div class="history-item">
+      <div class="history-item-title">
+        <%= link_to req.task_name, req %>
+      </div>
+      <div class="history-item-date">
+        <%= req.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="card">
+    <p style="text-align: center; color: #9ca3af;">
+      まだ履歴がありません
+    </p>
+  </div>
+<% end %>
+
+<div class="text-center mt-32">
+  <%= link_to "トップへ戻る", root_path, class: "btn btn-primary" %>
+</div>

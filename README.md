@@ -55,7 +55,7 @@ YAMLファイルをもとにランダム組み合わせで作られるため、
 | フロント | ERB / CSS |
 | バックエンド | Ruby on Rails |
 | データベース | MySQL |
-| インフラ | Docker / Docker Compose |
+| 実行環境 | Docker / Docker Compose |
 | 言い訳生成 | YAML辞書 + サービスクラス |
 
 ---

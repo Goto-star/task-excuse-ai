@@ -1,0 +1,35 @@
+<h2>今日は何から逃げたいですか？</h2>
+
+<p style="margin-bottom:20px;">
+  タスクを入力すると、AI（風）が全力で逃げ道を探します。
+</p>
+
+<%= form_with model: @excuse_request, local: true do |f| %>
+
+  <div style="margin-top:20px;">
+    <%= f.label :task_name, "やりたくないタスク", style: "font-weight:bold;" %><br>
+    <%= f.text_field :task_name, style: "width:100%; padding:10px; border-radius:6px; border:1px solid #ddd;" %>
+  </div>
+
+  <div style="margin-top:20px;">
+    <%= f.label :urgency, "緊急度", style: "font-weight:bold;" %><br>
+    <%= f.select :urgency,
+      [["低", "low"], ["中", "mid"], ["高", "high"]],
+      {},
+      style: "width:150px; padding:8px; border-radius:6px;" %>
+  </div>
+
+  <div style="margin-top:20px;">
+    <%= f.label :mood, "今日の気分（0〜100）", style: "font-weight:bold;" %><br>
+    <%= f.number_field :mood, min: 0, max: 100,
+      style: "width:150px; padding:8px; border-radius:6px;" %>
+  </div>
+
+  <div style="margin-top:30px;">
+    <%= f.submit "逃げ道を提案する", class: "btn-primary" %>
+  </div>
+
+<% end %>
+
+<hr style="margin-top:40px;">
+<%= link_to "過去の言い訳を見る", excuse_requests_path, class: "btn-secondary" %>

@@ -1,0 +1,16 @@
+<h2>あなたへの逃げ道提案</h2>
+
+<p style="margin-top:10px;">
+  <strong>タスク:</strong> <%= @excuse_request.task_name %>
+</p>
+
+<div style="margin-top:20px;">
+  <pre><%= @excuse_request.result %></pre>
+</div>
+
+<div style="margin-top:30px;">
+  <%= link_to "別の言い訳を探す", root_path, class: "btn-primary" %>
+</div>
+
+<hr style="margin-top:40px;">
+<%= link_to "過去の言い訳リストを見る", excuse_requests_path, class: "btn-secondary" %>

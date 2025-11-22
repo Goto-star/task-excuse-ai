@@ -1,0 +1,21 @@
+<h2>過去の言い訳履歴</h2>
+
+<p>あなたが逃げ道を求めた軌跡たちです。</p>
+
+<div style="margin-top:30px;">
+  <% @excuse_requests.each do |req| %>
+    <div style="
+      background:#fff7e6;
+      padding:16px;
+      border-radius:8px;
+      margin-bottom:14px;
+      border-left:4px solid #ff9800;
+    ">
+      <strong><%= link_to req.task_name, req %></strong><br>
+      <small style="color:#777;"><%= req.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+    </div>
+  <% end %>
+</div>
+
+<hr style="margin-top:40px;">
+<%= link_to "トップへ戻る", root_path, class: "btn-secondary" %>

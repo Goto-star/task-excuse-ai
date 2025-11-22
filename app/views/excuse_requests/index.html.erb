@@ -1,8 +1,30 @@
-<div class="card">
-  <h2>過去の言い訳履歴</h2>
-  <p>
-    あなたが逃げ道を求めた軌跡たちです。
-  </p>
+<h2>過去の言い訳履歴</h2>
+
+<p>あなたが逃げ道を求めた軌跡たちです。</p>
+
+<div style="margin-top:30px;">
+  <% @excuse_requests.each do |req| %>
+    <div style="
+      background:#fff7e6;
+      padding:16px;
+      border-radius:8px;
+      margin-bottom:14px;
+      border-left:4px solid #ff9800;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    ">
+      <div>
+        <strong><%= link_to req.task_name, req %></strong><br>
+        <small style="color:#777;"><%= req.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+      </div>
+      <div>
+        <%= button_to "削除", excuse_request_path(req), method: :delete,
+            data: { turbo_confirm: "本当にこの言い訳を削除しますか？" },
+            style: "background:#d32f2f; color:white; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-size:14px;" %>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 <% if @excuse_requests.any? %>
